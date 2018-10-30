@@ -86,12 +86,13 @@ See the gRPC-Web [Hello World guide](https://github.com/grpc/grpc-web/tree/1.0.0
 for instructions on how to compile `protoc` and the `protoc-gen-grpc-web`
 plugin.
 
-### Run your tests
+### Run tests
 ```
-yarn run test
+# Ensure gRPC server and proxy are running, then run:
+yarn run test:unit
 ```
 
-### Lints and fixes files
+### Lint and fix
 ```
 yarn run lint
 ```

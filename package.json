@@ -52,6 +52,8 @@
     "not ie <= 8"
   ],
   "eslintIgnore": [
-    "src/generated/*"
+    "src/generated/*",
+    "jest.config.js",
+    ".eslintrc.js"
   ]
 }
