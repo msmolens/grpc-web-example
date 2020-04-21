@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <GrpcWebTestClient title="gRPC-Web Test Client"/>
+    <GrpcWebTestClient title="gRPC-Web Test Client" />
   </div>
 </template>
 

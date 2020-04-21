@@ -2,13 +2,13 @@
   <div class="grpc-web-test-client">
     <h1>{{ title }}</h1>
     <form @submit.prevent="run">
-      <input v-model="server" placeholder="Enter server address">
-      <input :disabled="running" type="submit" value="Run">
+      <input v-model="server" placeholder="Enter server address" />
+      <input :disabled="running" type="submit" value="Run" />
     </form>
     <pre><code><template v-for="line in log">{{ line }}</template></code></pre>
     <div class="error" v-if="error">
-        <h4>ERROR:</h4>
-        <pre><code>{{ error }}</code></pre>
+      <h4>ERROR:</h4>
+      <pre><code>{{ error }}</code></pre>
     </div>
   </div>
 </template>
@@ -121,11 +121,9 @@ export default {
         const petSupplies = await createShoppingList(client, name);
         this.addToLog("Adding items...");
         await addItem(client, petSupplies, "Poop bags");
-        const dogFood = (await addItem(
-          client,
-          petSupplies,
-          "Dog food"
-        )).getItem();
+        const dogFood = (
+          await addItem(client, petSupplies, "Dog food")
+        ).getItem();
         await setItemChecked(client, petSupplies, dogFood, false);
         await setItemChecked(client, petSupplies, dogFood, true);
         response = await listItems(client, petSupplies);
@@ -156,10 +154,9 @@ export default {
       const shoppingLists = response.getShoppingListsList();
       if (shoppingLists.length) {
         for (const shoppingList of shoppingLists) {
-          const numItems = (await listItems(
-            client,
-            shoppingList
-          )).getItemsList().length;
+          const numItems = (
+            await listItems(client, shoppingList)
+          ).getItemsList().length;
           this.addToLog(`  ${shoppingList.getName()} (${numItems} items)`);
         }
       } else {
