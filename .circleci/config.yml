@@ -1,0 +1,47 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/node:12.16
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Set up Docker; see https://circleci.com/docs/2.0/building-docker-images/
+      - setup_remote_docker:
+          version: 18.09.3
+
+      # Build unit test Docker image
+      - run:
+          name: build unit test Docker image
+          command: |
+            docker build -t grpc-web-example/test .
+
+      # Build gRPC server Docker image
+      - run:
+          name: build gRPC server Docker image
+          command: |
+            git clone https://github.com/msmolens/python-grpc-ssl-example.git ~/python-grpc-ssl-example
+            docker build -t python-grpc-ssl-example ~/python-grpc-ssl-example
+
+      # Set up proxy
+      - run:
+          name: set up proxy
+          command: |
+            docker build -t grpc-web-example/envoy -f ./envoy.Dockerfile .
+
+      # Run gRPC server, proxy, and tests
+      - run:
+          name: run tests
+          command: |
+            docker run -d --name python-grpc-ssl-example python-grpc-ssl-example python /opt/app/shopping_list_server.py --no-use-tls --port 9090
+            docker run -d --network container:python-grpc-ssl-example grpc-web-example/envoy
+            docker run --network container:python-grpc-ssl-example grpc-web-example/test
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
